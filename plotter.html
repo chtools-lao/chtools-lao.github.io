@@ -38,7 +38,7 @@
 <path class="s" d="M340 150 L390 150 M378 138 L390 150 L378 162"/>
 <rect class="s" x="400" y="100" width="60" height="80"/><text x="413" y="146">PDF</text>
 <text x="40" y="30">A3 · 1:1000 · 24 Layouts</text>
-</svg><img src="images/plotter-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ຮູບຕົວຢ່າງ</span></div>
+</svg><img src="img-plotter-main.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ຮູບຕົວຢ່າງ</span></div>
   </div>
 </div>
 
@@ -49,15 +49,15 @@
 <rect class="d" x="16" y="16" width="448" height="238"/>
 <line class="d" x1="16" y1="16" x2="464" y2="254"/><line class="d" x1="464" y1="16" x2="16" y2="254"/>
 <text x="196" y="140">ຮູບທີ 1</text>
-</svg><img src="images/plotter-1.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>Palette AUTOCAD PLOTTER CONTROL</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+</svg><img src="img-plotter-1.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>Palette AUTOCAD PLOTTER CONTROL</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
 <rect class="d" x="16" y="16" width="448" height="238"/>
 <line class="d" x1="16" y1="16" x2="464" y2="254"/><line class="d" x1="464" y1="16" x2="16" y2="254"/>
 <text x="196" y="140">ຮູບທີ 2</text>
-</svg><img src="images/plotter-2.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>ເລືອກ Layout ທີ່ຈະພິມ</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+</svg><img src="img-plotter-2.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>ເລືອກ Layout ທີ່ຈະພິມ</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
 <rect class="d" x="16" y="16" width="448" height="238"/>
 <line class="d" x1="16" y1="16" x2="464" y2="254"/><line class="d" x1="464" y1="16" x2="16" y2="254"/>
 <text x="196" y="140">ຮູບທີ 3</text>
-</svg><img src="images/plotter-3.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>PDF ທີ່ໄດ້</figcaption></figure></div>
+</svg><img src="img-plotter-3.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>PDF ທີ່ໄດ້</figcaption></figure></div>
 </div></section>
 
 <section><div class="wrap">
@@ -108,6 +108,7 @@
 </main>
 <footer><div class="wrap">© 2026 CH Tools · ພັດທະນາໂດຍ ທິບພະຈັນ ພູໄຊ · WhatsApp 020 22223752</div></footer>
 <script>
+function imgNext(i){var e=['.png','.jpg','.jpeg','.PNG','.JPG','.JPEG'],s=i.getAttribute('src'),m=s.match(/\.[A-Za-z]+$/),k=m?e.indexOf(m[0]):-1;if(k>=0&&k<e.length-1){i.src=s.slice(0,-m[0].length)+e[k+1];}else{i.remove();}}
 (function(){var b=document.getElementById('copy');if(!b)return;b.addEventListener('click',function(){
 var n=document.getElementById('note'),t='020 22223752';
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('ph'));var s=getSelection();s.removeAllRanges();s.addRange(r);n.textContent='ເລືອກເບີແລ້ວ, ກົດ Ctrl+C ເພື່ອສຳເນົາ';}

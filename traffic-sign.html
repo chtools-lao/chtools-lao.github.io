@@ -39,7 +39,7 @@
 <path class="s" d="M20 280 C120 180 220 130 300 140 S430 210 470 250"/>
 <g transform="translate(70 200) rotate(-20)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(150 150) rotate(-32)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(240 120) rotate(-8)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(330 128) rotate(12)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(410 160) rotate(30)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g>
 <text x="24" y="40">STA 0+000 → 0+850</text>
-</svg><img src="images/traffic-sign-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ຮູບຕົວຢ່າງ</span></div>
+</svg><img src="img-traffic-sign-main.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ຮູບຕົວຢ່າງ</span></div>
   </div>
 </div>
 
@@ -50,15 +50,15 @@
 <rect class="d" x="16" y="16" width="448" height="238"/>
 <line class="d" x1="16" y1="16" x2="464" y2="254"/><line class="d" x1="464" y1="16" x2="16" y2="254"/>
 <text x="196" y="140">ຮູບທີ 1</text>
-</svg><img src="images/traffic-sign-1.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>Palette ເລືອກປ້າຍຈາກຮູບ</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+</svg><img src="img-traffic-sign-1.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>Palette ເລືອກປ້າຍຈາກຮູບ</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
 <rect class="d" x="16" y="16" width="448" height="238"/>
 <line class="d" x1="16" y1="16" x2="464" y2="254"/><line class="d" x1="464" y1="16" x2="16" y2="254"/>
 <text x="196" y="140">ຮູບທີ 2</text>
-</svg><img src="images/traffic-sign-2.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>ປ້າຍວາງຕາມ Alignment</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+</svg><img src="img-traffic-sign-2.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>ປ້າຍວາງຕາມ Alignment</figcaption></figure><figure><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
 <rect class="d" x="16" y="16" width="448" height="238"/>
 <line class="d" x1="16" y1="16" x2="464" y2="254"/><line class="d" x1="464" y1="16" x2="16" y2="254"/>
 <text x="196" y="140">ຮູບທີ 3</text>
-</svg><img src="images/traffic-sign-3.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>ເຄື່ອງໝາຍທາງ 2 ເລນ</figcaption></figure></div>
+</svg><img src="img-traffic-sign-3.png" alt="" loading="lazy" onerror="imgNext(this)"><span class="cap">ລໍຖ້າຮູບ</span></div><figcaption>ເຄື່ອງໝາຍທາງ 2 ເລນ</figcaption></figure></div>
 </div></section>
 
 <section><div class="wrap">
@@ -109,6 +109,7 @@
 </main>
 <footer><div class="wrap">© 2026 CH Tools · ພັດທະນາໂດຍ ທິບພະຈັນ ພູໄຊ · WhatsApp 020 22223752</div></footer>
 <script>
+function imgNext(i){var e=['.png','.jpg','.jpeg','.PNG','.JPG','.JPEG'],s=i.getAttribute('src'),m=s.match(/\.[A-Za-z]+$/),k=m?e.indexOf(m[0]):-1;if(k>=0&&k<e.length-1){i.src=s.slice(0,-m[0].length)+e[k+1];}else{i.remove();}}
 (function(){var b=document.getElementById('copy');if(!b)return;b.addEventListener('click',function(){
 var n=document.getElementById('note'),t='020 22223752';
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('ph'));var s=getSelection();s.removeAllRanges();s.addRange(r);n.textContent='ເລືອກເບີແລ້ວ, ກົດ Ctrl+C ເພື່ອສຳເນົາ';}
