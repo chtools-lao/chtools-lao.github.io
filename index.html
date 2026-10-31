@@ -2,95 +2,25 @@
 <html lang="lo">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CH Tools Add-in</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Add-in AutoCAD ແລະ Civil 3D ສຳລັບວິສະວະກອນທາງ ແລະ ໂຍທາ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@500;700;800&family=Noto+Sans+Lao:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
-<style>
-/* Layout: AutoCAD model-space grid backdrop, command-line hero, product sheets laid out like title-block drawings */
-:root{
-  --bg:#eef1ee; --panel:#ffffff; --fg:#17201b; --muted:#5b6b62; --line:#cfd8d2;
-  --grid:rgba(23,32,27,.06); --accent:#1f8a4c; --accent-ink:#ffffff; --accent-soft:#e1f1e7; --cyan:#0e7490;
-  --display:"Noto Sans Lao Looped","Noto Sans Lao",system-ui,sans-serif;
-  --body:"Noto Sans Lao",system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#1b1f23; --panel:#242a2f; --fg:#e7ece9; --muted:#9aa8a0; --line:#363f45;
-  --grid:rgba(255,255,255,.045); --accent:#3fbf74; --accent-ink:#0d1a12; --accent-soft:#1f3328; --cyan:#5cc8e0; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1b1f23; --panel:#242a2f; --fg:#e7ece9; --muted:#9aa8a0; --line:#363f45;
-  --grid:rgba(255,255,255,.045); --accent:#3fbf74; --accent-ink:#0d1a12; --accent-soft:#1f3328; --cyan:#5cc8e0; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.75;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:24px 24px}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-a{color:var(--accent)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
-.brand{font-family:var(--mono);font-weight:600;letter-spacing:.04em;display:flex;align-items:center;gap:10px}
-.brand i{width:14px;height:14px;border:2px solid var(--accent);display:inline-block;position:relative}
-.brand i::after{content:"";position:absolute;inset:3px;background:var(--accent)}
-.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--body);padding:10px 18px;border-radius:4px;border:1px solid var(--accent);text-decoration:none;cursor:pointer}
-.btn.solid{background:var(--accent);color:var(--accent-ink)}
-.btn.ghost{background:transparent;color:var(--accent)}
-.hero{padding-block:56px 40px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
-.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,48px);line-height:1.35;margin:0 0 14px;text-wrap:balance}
-.hero h1 em{font-style:normal;color:var(--accent)}
-.hero p{color:var(--muted);max-width:56ch;margin:0 0 22px}
-.cta{display:flex;flex-wrap:wrap;gap:10px}
-.cmd{background:#111613;color:#cfe9d8;font-family:var(--mono);font-size:13.5px;line-height:1.9;border-radius:6px;padding:18px 18px 14px;border:1px solid #2b3a31;min-width:0;overflow-x:auto}
-.cmd .p{color:#6f8a79}.cmd .k{color:#7ee2a3}.cmd .c{color:#5cc8e0}
-.cmd .cur{display:inline-block;width:8px;height:15px;background:#7ee2a3;vertical-align:-2px;animation:b 1s steps(1) infinite}
-@keyframes b{50%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.cmd .cur{animation:none}}
-.facts{display:flex;flex-wrap:wrap;gap:8px 24px;padding-block:14px;border-block:1px solid var(--line);font-size:14px;color:var(--muted)}
-.facts b{color:var(--fg);font-family:var(--mono);font-weight:600}
-section{padding-block:48px}
-h2{font-family:var(--display);font-size:clamp(24px,3.4vw,32px);margin:0 0 6px;text-wrap:balance}
-.lead{color:var(--muted);margin:0 0 26px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.sheet{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column}
-.sheet .body{padding:20px 22px 16px;flex:1;min-width:0}
-.tag{display:inline-block;font:600 12px var(--mono);letter-spacing:.06em;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:3px;margin-bottom:8px}
-.tag.new{color:var(--cyan);background:transparent;border:1px solid var(--cyan)}
-.sheet h3{font-family:var(--display);font-size:21px;margin:0 0 6px;line-height:1.4}
-.sheet p{margin:0 0 10px;color:var(--muted);font-size:15px}
-.sheet ul{margin:0;padding-left:18px;font-size:15px}
-.sheet li{margin:2px 0}
-.tb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);font-size:12.5px}
-.tb div{padding:8px 12px;border-right:1px solid var(--line);min-width:0}
-.tb div:last-child{border-right:0}
-.tb span{display:block;color:var(--muted);font-size:11.5px;letter-spacing:.04em}
-.tb b{font-family:var(--mono);font-weight:600;overflow-wrap:anywhere}
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
-.step{border-top:3px solid var(--accent);padding-top:12px}
-.step::before{counter-increment:s;content:counter(s);font:600 13px var(--mono);color:var(--accent)}
-.step h4{margin:4px 0 4px;font-family:var(--display);font-size:17px}
-.step p{margin:0;color:var(--muted);font-size:14.5px}
-.contact{background:var(--panel);border:1px solid var(--line);padding:28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-.phone{font:600 clamp(24px,4vw,34px) var(--mono);letter-spacing:.02em;user-select:all}
-.note{font-size:13px;color:var(--muted);min-height:1.2em}
-footer{padding-block:28px 40px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line)}
-@media (max-width:820px){
-  .hero,.contact{grid-template-columns:1fr}
-  .grid{grid-template-columns:1fr}
-  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media (max-width:440px){.steps{grid-template-columns:1fr}.top .btn{padding:8px 12px;font-size:14px}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header class="top"><div class="wrap">
-  <div class="brand"><i></i>CH TOOLS</div>
-  <a class="btn solid" href="https://wa.me/8562022223752" target="_blank" rel="noopener">WhatsApp</a>
+  <a class="brand" href="index.html"><i></i>CH TOOLS</a>
+  <nav class="nav">
+    <a class="link" href="index.html#products">Add-in</a>
+    <a class="link" href="index.html#order">ວິທີສັ່ງຊື້</a>
+    <a class="btn solid" href="https://wa.me/8562022223752?text=%E0%BA%AA%E0%BA%B0%E0%BA%9A%E0%BA%B2%E0%BA%8D%E0%BA%94%E0%BA%B5%2C%20%E0%BA%AA%E0%BA%BB%E0%BA%99%E0%BB%83%E0%BA%88%20Add-in%20CH%20Tools" target="_blank" rel="noopener">WhatsApp</a>
+  </nav>
 </div></header>
-
 <main>
+
 <div class="wrap">
   <div class="hero">
     <div>
@@ -120,83 +50,80 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13.5px;border-top:1p
 
 <section id="products"><div class="wrap">
   <h2>Add-in ຂອງພວກເຮົາ</h2>
-  <p class="lead">ແຕ່ລະຕົວສ້າງຈາກວຽກແຕ້ມແບບຕົວຈິງ ແລະ ທົດສອບກັບແບບໂຄງການທາງ.</p>
+  <p class="lead">ກົດເຂົ້າແຕ່ລະຕົວ ເພື່ອເບິ່ງຮູບ, ຄຸນສົມບັດ ແລະ ວິທີໃຊ້.</p>
   <div class="grid">
-
-    <article class="sheet"><div class="body">
-      <span class="tag">CIVIL 3D</span>
-      <h3>Pipe Culvert + Box Culvert</h3>
-      <p>ແຕ້ມທໍ່ລອດລົງໃສ່ໜ້າຕັດຂວາງຂອງຖະໜົນໂດຍອັດຕະໂນມັດ.</p>
-      <ul>
-        <li>ໜ້າຕັດ + ແຜນຜັງ, ບອກລະດັບ EL= ແລະ ຂະໜາດ</li>
-        <li>ຮອງຮັບ Skew 15°/30°, ທໍ່ດ່ຽວ ແລະ ທໍ່ຄູ່</li>
-        <li>ຕາຕະລາງປະລິມານ ແລະ ສົ່ງອອກ Excel</li>
-        <li>ສ້າງ Layout, Shop Drawing ແລະ ວາງເທິງ Plan &amp; Profile</li>
-        <li>ທໍ່ລອດຫຼ່ຽມ (Box) ຕາມມາດຕະຖານ 1–3 ຊ່ອງ</li>
-      </ul>
-    </div><div class="tb"><div><span>ຄຳສັ່ງ</span><b>PIPEPANEL</b></div><div><span>ໃໝ່</span><b>BOXPANEL</b></div><div><span>ຮຸ່ນ</span><b>2018–2027</b></div></div></article>
-
-    <article class="sheet"><div class="body">
-      <span class="tag">CIVIL 3D / AutoCAD</span>
-      <h3>Traffic Sign &amp; Road Marking</h3>
-      <p>ວາງປ້າຍຈະລາຈອນຕາມ Alignment ແລະ ແຕ້ມເຄື່ອງໝາຍໜ້າທາງ.</p>
-      <ul>
-        <li>ເລືອກປ້າຍຈາກຮູບຕົວຢ່າງ, ວາງຕັ້ງສາກກັບທາງ</li>
-        <li>ປ້າຍຍ້າຍຕາມ ເມື່ອແກ້ໄຂ Alignment</li>
-        <li>ເຄື່ອງໝາຍທາງ 2 ເລນ / 4 ເລນ, ເສັ້ນທຶບໃນໂຄ້ງອັດຕະໂນມັດ</li>
-        <li>ສ້າງລາຍການປ້າຍຈາກ Code ແລະ ຄຳອະທິບາຍ</li>
-      </ul>
-    </div><div class="tb"><div><span>ອ້າງອີງ</span><b>QCVN 41</b></div><div><span>ໃຊ້ກັບ</span><b>Alignment / PL</b></div><div><span>ຮຸ່ນ</span><b>2018–2027</b></div></div></article>
-
-    <article class="sheet"><div class="body">
-      <span class="tag new">ໃໝ່</span>
-      <h3>TreePlacer</h3>
-      <p>ວາງຕົ້ນໄມ້ແບບທຳມະຊາດ ທັງແຜນຜັງ ແລະ ຮູບດ້ານ.</p>
-      <ul>
-        <li>ແຜນຜັງ: ວາງແບບສຸ່ມພາຍໃນຂອບເຂດ Polyline ປິດ</li>
-        <li>ຮູບດ້ານ: ວາງຕາມເສັ້ນ, ເນີນຊັນມີແຕ່ພຸ່ມໄມ້</li>
-        <li>ປະສົມຫຼາຍຊະນິດ, ເງົາທິດດຽວກັນ, ຄືປ່າແທ້</li>
-        <li>ແຕ້ມສາຍນໍ້າ / ຫ້ວຍ ຈາກ Polyline</li>
-      </ul>
-    </div><div class="tb"><div><span>ໂໝດ</span><b>Plan + Elevation</b></div><div><span>Block</span><b>ມີໃນຕົວ</b></div><div><span>ຮຸ່ນ</span><b>2018–2027</b></div></div></article>
-
-    <article class="sheet"><div class="body">
-      <span class="tag">AutoCAD</span>
-      <h3>Google Map Loader</h3>
-      <p>ນຳແຜນທີ່ ແລະ ອາຄານເຂົ້າ AutoCAD ໂດຍບໍ່ຕ້ອງ Login Autodesk.</p>
-      <ul>
-        <li>Live Map ສະແດງໃນແບບແຕ້ມ</li>
-        <li>ນຳເຂົ້າຂອບອາຄານ (Google + Microsoft Open Buildings)</li>
-        <li>ກຳນົດພິກັດ UTM ໃຫ້ກົງກັບໜ້າງານ</li>
-      </ul>
-    </div><div class="tb"><div><span>ພິກັດ</span><b>UTM / Geolocation</b></div><div><span>ຂໍ້ມູນ</span><b>Satellite</b></div><div><span>ຮຸ່ນ</span><b>2018–2027</b></div></div></article>
-
-    <article class="sheet"><div class="body">
-      <span class="tag">AutoCAD</span>
-      <h3>Plotter Control</h3>
-      <p>ຄວບຄຸມການພິມແບບຫຼາຍແຜ່ນໃນບ່ອນດຽວ.</p>
-      <ul>
-        <li>Page Setup, Frame ແລະ Layout</li>
-        <li>ພິມ DWG ເປັນ PDF ຫຼາຍແຜ່ນພ້ອມກັນ</li>
-      </ul>
-    </div><div class="tb"><div><span>ອອກເປັນ</span><b>PDF</b></div><div><span>ໜ້າຈໍ</span><b>Palette</b></div><div><span>ໃຊ້ກັບ</span><b>AutoCAD</b></div></div></article>
-
-    <article class="sheet"><div class="body">
-      <span class="tag">EXCEL → CAD</span>
-      <h3>Excel to CAD</h3>
-      <p>Add-in ໃນ Excel ສົ່ງຕາຕະລາງເຂົ້າ AutoCAD ໄດ້ທັນທີ.</p>
-      <ul>
-        <li>ເລືອກຕາຕະລາງໃນ Excel ແລ້ວສົ່ງເຂົ້າແບບແຕ້ມ</li>
-        <li>ບໍ່ຕ້ອງພິມຕາຕະລາງຄືນໃໝ່ໃນ CAD</li>
-      </ul>
-    </div><div class="tb"><div><span>ຕິດຕັ້ງໃນ</span><b>Excel</b></div><div><span>ສົ່ງໄປ</span><b>AutoCAD</b></div><div><span>Setup</span><b>MSI</b></div></div></article>
-
+<a class="card" href="pipe-culvert.html">
+  <div class="thumb"><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+<line class="d" x1="240" y1="20" x2="240" y2="250"/>
+<path class="s" d="M20 200 L120 200 L190 90 L290 90 L360 200 L460 200"/>
+<path class="s2" d="M20 215 C120 205 180 225 240 212 S380 205 460 218"/>
+<line class="s" x1="110" y1="196" x2="370" y2="168"/>
+<line class="s" x1="110" y1="214" x2="370" y2="186"/>
+<rect class="s" x="92" y="186" width="18" height="36"/><rect class="s" x="370" y="158" width="18" height="36"/>
+<circle class="f" cx="240" cy="90" r="3"/>
+<text x="250" y="80">CL</text>
+<text x="70" y="245">EL=788.450</text><text x="350" y="150">EL=789.120</text>
+<text x="200" y="135">Ø1000mm</text>
+</svg><img src="images/pipe-culvert-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap"></span></div></div>
+  <div class="body"><span class="tag ">CIVIL 3D</span><h3>Pipe Culvert + Box Culvert</h3><p>ແຕ້ມທໍ່ລອດລົງໜ້າຕັດຂວາງອັດຕະໂນມັດ, ຄິດໄລ່ປະລິມານ ແລະ ອອກ Layout.</p></div>
+  <div class="more">ເບິ່ງລາຍລະອຽດ →<span>2018–2027</span></div>
+</a>
+<a class="card" href="traffic-sign.html">
+  <div class="thumb"><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+<path class="s" d="M20 240 C120 140 220 90 300 100 S430 170 470 210"/>
+<path class="d" d="M20 260 C120 160 220 110 300 120 S430 190 470 230"/>
+<path class="s" d="M20 280 C120 180 220 130 300 140 S430 210 470 250"/>
+<g transform="translate(70 200) rotate(-20)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(150 150) rotate(-32)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(240 120) rotate(-8)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(330 128) rotate(12)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g><g transform="translate(410 160) rotate(30)"><line class="s2" x1="0" y1="0" x2="0" y2="-30"/><circle class="s" cx="0" cy="-40" r="10"/></g>
+<text x="24" y="40">STA 0+000 → 0+850</text>
+</svg><img src="images/traffic-sign-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap"></span></div></div>
+  <div class="body"><span class="tag ">CIVIL 3D / AutoCAD</span><h3>Traffic Sign &amp; Road Marking</h3><p>ວາງປ້າຍຕາມ Alignment, ແຕ້ມເຄື່ອງໝາຍທາງ ແລະ ສ້າງລາຍການປ້າຍ.</p></div>
+  <div class="more">ເບິ່ງລາຍລະອຽດ →<span>2018–2027</span></div>
+</a>
+<a class="card" href="tree-placer.html">
+  <div class="thumb"><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+<path class="d" d="M50 60 L230 30 L430 70 L440 220 L250 245 L60 225 Z"/>
+<circle class="f2" cx="184" cy="83" r="17"/><circle class="s" cx="180" cy="79" r="17"/><circle class="f2" cx="99" cy="145" r="14"/><circle class="s" cx="95" cy="141" r="14"/><circle class="f2" cx="94" cy="140" r="9"/><circle class="s" cx="90" cy="136" r="9"/><circle class="f2" cx="221" cy="70" r="10"/><circle class="s" cx="217" cy="66" r="10"/><circle class="f2" cx="218" cy="191" r="11"/><circle class="s" cx="214" cy="187" r="11"/><circle class="f2" cx="150" cy="159" r="21"/><circle class="s" cx="146" cy="155" r="21"/><circle class="f2" cx="270" cy="122" r="22"/><circle class="s" cx="266" cy="118" r="22"/><circle class="f2" cx="90" cy="196" r="13"/><circle class="s" cx="86" cy="192" r="13"/><circle class="f2" cx="123" cy="78" r="13"/><circle class="s" cx="119" cy="74" r="13"/><circle class="f2" cx="351" cy="88" r="17"/><circle class="s" cx="347" cy="84" r="17"/><circle class="f2" cx="291" cy="119" r="16"/><circle class="s" cx="287" cy="115" r="16"/><circle class="f2" cx="95" cy="69" r="12"/><circle class="s" cx="91" cy="65" r="12"/><circle class="f2" cx="305" cy="127" r="13"/><circle class="s" cx="301" cy="123" r="13"/><circle class="f2" cx="273" cy="132" r="13"/><circle class="s" cx="269" cy="128" r="13"/><circle class="f2" cx="344" cy="171" r="12"/><circle class="s" cx="340" cy="167" r="12"/><circle class="f2" cx="269" cy="143" r="20"/><circle class="s" cx="265" cy="139" r="20"/><circle class="f2" cx="322" cy="105" r="22"/><circle class="s" cx="318" cy="101" r="22"/><circle class="f2" cx="114" cy="126" r="19"/><circle class="s" cx="110" cy="122" r="19"/><circle class="f2" cx="126" cy="137" r="10"/><circle class="s" cx="122" cy="133" r="10"/><circle class="f2" cx="301" cy="181" r="16"/><circle class="s" cx="297" cy="177" r="16"/><circle class="f2" cx="372" cy="109" r="18"/><circle class="s" cx="368" cy="105" r="18"/><circle class="f2" cx="276" cy="152" r="15"/><circle class="s" cx="272" cy="148" r="15"/><circle class="f2" cx="360" cy="210" r="15"/><circle class="s" cx="356" cy="206" r="15"/><circle class="f2" cx="300" cy="69" r="18"/><circle class="s" cx="296" cy="65" r="18"/><circle class="f2" cx="294" cy="218" r="20"/><circle class="s" cx="290" cy="214" r="20"/><circle class="f2" cx="171" cy="121" r="18"/><circle class="s" cx="167" cy="117" r="18"/><circle class="f2" cx="82" cy="133" r="11"/><circle class="s" cx="78" cy="129" r="11"/><circle class="f2" cx="114" cy="68" r="19"/><circle class="s" cx="110" cy="64" r="19"/><circle class="f2" cx="118" cy="99" r="14"/><circle class="s" cx="114" cy="95" r="14"/><circle class="f2" cx="370" cy="72" r="15"/><circle class="s" cx="366" cy="68" r="15"/><circle class="f2" cx="261" cy="200" r="20"/><circle class="s" cx="257" cy="196" r="20"/><circle class="f2" cx="368" cy="104" r="14"/><circle class="s" cx="364" cy="100" r="14"/><circle class="f2" cx="196" cy="200" r="21"/><circle class="s" cx="192" cy="196" r="21"/><circle class="f2" cx="125" cy="87" r="12"/><circle class="s" cx="121" cy="83" r="12"/><circle class="f2" cx="153" cy="137" r="17"/><circle class="s" cx="149" cy="133" r="17"/><circle class="f2" cx="163" cy="60" r="14"/><circle class="s" cx="159" cy="56" r="14"/><circle class="f2" cx="200" cy="150" r="21"/><circle class="s" cx="196" cy="146" r="21"/><circle class="f2" cx="309" cy="141" r="17"/><circle class="s" cx="305" cy="137" r="17"/><circle class="f2" cx="304" cy="68" r="21"/><circle class="s" cx="300" cy="64" r="21"/><circle class="f2" cx="339" cy="199" r="19"/><circle class="s" cx="335" cy="195" r="19"/><circle class="f2" cx="207" cy="123" r="10"/><circle class="s" cx="203" cy="119" r="10"/><circle class="f2" cx="290" cy="69" r="10"/><circle class="s" cx="286" cy="65" r="10"/><circle class="f2" cx="145" cy="85" r="13"/><circle class="s" cx="141" cy="81" r="13"/><circle class="f2" cx="92" cy="59" r="11"/><circle class="s" cx="88" cy="55" r="11"/><circle class="f2" cx="108" cy="117" r="9"/><circle class="s" cx="104" cy="113" r="9"/><circle class="f2" cx="371" cy="157" r="11"/><circle class="s" cx="367" cy="153" r="11"/>
+<path class="s2" d="M20 250 C140 210 260 260 470 200" stroke-width="5"/>
+</svg><img src="images/tree-placer-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap"></span></div></div>
+  <div class="body"><span class="tag new">ໃໝ່</span><h3>TreePlacer</h3><p>ວາງຕົ້ນໄມ້ແບບສຸ່ມທຳມະຊາດ ທັງແຜນຜັງ ແລະ ຮູບດ້ານ.</p></div>
+  <div class="more">ເບິ່ງລາຍລະອຽດ →<span>2018–2027</span></div>
+</a>
+<a class="card" href="map-loader.html">
+  <div class="thumb"><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+<path class="s" d="M0 150 C120 140 200 170 300 130 S420 90 480 100" stroke-width="7"/>
+<path class="s" d="M210 0 C220 90 200 180 230 270" stroke-width="5"/>
+<rect class="s2" x="125" y="139" width="19" height="18" transform="rotate(4 125 139)"/><rect class="s2" x="56" y="33" width="27" height="14" transform="rotate(-8 56 33)"/><rect class="s2" x="428" y="124" width="27" height="17" transform="rotate(4 428 124)"/><rect class="s2" x="90" y="157" width="28" height="17" transform="rotate(7 90 157)"/><rect class="s2" x="299" y="43" width="26" height="18" transform="rotate(-6 299 43)"/><rect class="s2" x="42" y="203" width="21" height="20" transform="rotate(11 42 203)"/><rect class="s2" x="316" y="214" width="19" height="21" transform="rotate(-2 316 214)"/><rect class="s2" x="404" y="206" width="14" height="12" transform="rotate(-8 404 206)"/><rect class="s2" x="416" y="117" width="23" height="14" transform="rotate(0 416 117)"/><rect class="s2" x="184" y="100" width="23" height="18" transform="rotate(12 184 100)"/><rect class="s2" x="303" y="216" width="27" height="24" transform="rotate(5 303 216)"/><rect class="s2" x="95" y="202" width="29" height="23" transform="rotate(2 95 202)"/><rect class="s2" x="316" y="72" width="27" height="18" transform="rotate(-6 316 72)"/><rect class="s2" x="55" y="201" width="30" height="11" transform="rotate(9 55 201)"/><rect class="s2" x="194" y="60" width="17" height="21" transform="rotate(11 194 60)"/><rect class="s2" x="48" y="153" width="13" height="20" transform="rotate(-5 48 153)"/><rect class="s2" x="382" y="226" width="21" height="24" transform="rotate(-6 382 226)"/><rect class="s2" x="61" y="150" width="13" height="13" transform="rotate(-3 61 150)"/><rect class="s2" x="274" y="61" width="13" height="22" transform="rotate(-6 274 61)"/><rect class="s2" x="413" y="209" width="19" height="16" transform="rotate(1 413 209)"/><rect class="s2" x="288" y="149" width="22" height="19" transform="rotate(13 288 149)"/><rect class="s2" x="233" y="116" width="25" height="13" transform="rotate(-6 233 116)"/><rect class="s2" x="421" y="134" width="22" height="10" transform="rotate(-3 421 134)"/><rect class="s2" x="262" y="34" width="23" height="19" transform="rotate(-13 262 34)"/><rect class="s2" x="281" y="123" width="24" height="15" transform="rotate(6 281 123)"/><rect class="s2" x="325" y="34" width="13" height="19" transform="rotate(14 325 34)"/><rect class="s2" x="130" y="121" width="23" height="14" transform="rotate(-4 130 121)"/><rect class="s2" x="155" y="104" width="23" height="14" transform="rotate(-4 155 104)"/><rect class="s2" x="339" y="35" width="22" height="20" transform="rotate(-6 339 35)"/><rect class="s2" x="119" y="191" width="16" height="13" transform="rotate(-2 119 191)"/><rect class="s2" x="309" y="50" width="18" height="15" transform="rotate(10 309 50)"/><rect class="s2" x="205" y="201" width="15" height="15" transform="rotate(5 205 201)"/><rect class="s2" x="384" y="120" width="16" height="12" transform="rotate(1 384 120)"/><rect class="s2" x="106" y="191" width="27" height="13" transform="rotate(-7 106 191)"/><rect class="s2" x="353" y="158" width="27" height="15" transform="rotate(-11 353 158)"/><rect class="s2" x="147" y="189" width="17" height="15" transform="rotate(-2 147 189)"/><rect class="s2" x="198" y="112" width="29" height="12" transform="rotate(-15 198 112)"/><rect class="s2" x="407" y="206" width="30" height="16" transform="rotate(14 407 206)"/>
+<text x="16" y="258">UTM 48N · 240512.3 E · 1984033.7 N</text>
+</svg><img src="images/map-loader-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap"></span></div></div>
+  <div class="body"><span class="tag ">AutoCAD</span><h3>Google Map Loader</h3><p>ແຜນທີ່ດາວທຽມ ແລະ ຂອບອາຄານ ເຂົ້າ AutoCAD ຕາມພິກັດ UTM.</p></div>
+  <div class="more">ເບິ່ງລາຍລະອຽດ →<span>2018–2027</span></div>
+</a>
+<a class="card" href="plotter.html">
+  <div class="thumb"><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+<rect class="s" x="40" y="40" width="230" height="160" fill="var(--sheet)"/><rect class="s2" x="190" y="168" width="74" height="26"/><rect class="s" x="62" y="56" width="230" height="160" fill="var(--sheet)"/><rect class="s2" x="212" y="184" width="74" height="26"/><rect class="s" x="84" y="72" width="230" height="160" fill="var(--sheet)"/><rect class="s2" x="234" y="200" width="74" height="26"/><rect class="s" x="106" y="88" width="230" height="160" fill="var(--sheet)"/><rect class="s2" x="256" y="216" width="74" height="26"/>
+<path class="s" d="M340 150 L390 150 M378 138 L390 150 L378 162"/>
+<rect class="s" x="400" y="100" width="60" height="80"/><text x="413" y="146">PDF</text>
+<text x="40" y="30">A3 · 1:1000 · 24 Layouts</text>
+</svg><img src="images/plotter-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap"></span></div></div>
+  <div class="body"><span class="tag ">AutoCAD</span><h3>Plotter Control</h3><p>ພິມ DWG ເປັນ PDF ຫຼາຍແຜ່ນພ້ອມກັນ ຈາກ Palette ດຽວ.</p></div>
+  <div class="more">ເບິ່ງລາຍລະອຽດ →<span>AutoCAD</span></div>
+</a>
+<a class="card" href="excel-to-cad.html">
+  <div class="thumb"><div class="fig"><svg viewBox="0 0 480 270" aria-hidden="true">
+<text x="30" y="48">Excel</text><rect class="s2" x="30" y="60" width="42" height="24"/><rect class="s2" x="72" y="60" width="42" height="24"/><rect class="s2" x="114" y="60" width="42" height="24"/><rect class="s2" x="156" y="60" width="42" height="24"/><rect class="s2" x="30" y="84" width="42" height="24"/><rect class="s2" x="72" y="84" width="42" height="24"/><rect class="s2" x="114" y="84" width="42" height="24"/><rect class="s2" x="156" y="84" width="42" height="24"/><rect class="s2" x="30" y="108" width="42" height="24"/><rect class="s2" x="72" y="108" width="42" height="24"/><rect class="s2" x="114" y="108" width="42" height="24"/><rect class="s2" x="156" y="108" width="42" height="24"/><rect class="s2" x="30" y="132" width="42" height="24"/><rect class="s2" x="72" y="132" width="42" height="24"/><rect class="s2" x="114" y="132" width="42" height="24"/><rect class="s2" x="156" y="132" width="42" height="24"/><rect class="s2" x="30" y="156" width="42" height="24"/><rect class="s2" x="72" y="156" width="42" height="24"/><rect class="s2" x="114" y="156" width="42" height="24"/><rect class="s2" x="156" y="156" width="42" height="24"/><rect class="s2" x="30" y="180" width="42" height="24"/><rect class="s2" x="72" y="180" width="42" height="24"/><rect class="s2" x="114" y="180" width="42" height="24"/><rect class="s2" x="156" y="180" width="42" height="24"/>
+<path class="s" d="M215 132 L270 132 M258 120 L270 132 L258 144"/>
+<text x="290" y="48">AutoCAD</text><line class="s" x1="290" y1="60" x2="458" y2="60"/><line class="s" x1="290" y1="84" x2="458" y2="84"/><line class="s" x1="290" y1="108" x2="458" y2="108"/><line class="s" x1="290" y1="132" x2="458" y2="132"/><line class="s" x1="290" y1="156" x2="458" y2="156"/><line class="s" x1="290" y1="180" x2="458" y2="180"/><line class="s" x1="290" y1="60" x2="290" y2="204"/><line class="s" x1="332" y1="60" x2="332" y2="204"/><line class="s" x1="374" y1="60" x2="374" y2="204"/><line class="s" x1="416" y1="60" x2="416" y2="204"/><line class="s" x1="458" y1="60" x2="458" y2="204"/>
+<line class="s" x1="290" y1="204" x2="458" y2="204"/>
+</svg><img src="images/excel-to-cad-main.png" alt="" loading="lazy" onerror="this.remove()"><span class="cap"></span></div></div>
+  <div class="body"><span class="tag ">EXCEL → CAD</span><h3>Excel to CAD</h3><p>ສົ່ງຕາຕະລາງຈາກ Excel ເຂົ້າ AutoCAD ໃນຄລິກດຽວ.</p></div>
+  <div class="more">ເບິ່ງລາຍລະອຽດ →<span>MSI Setup</span></div>
+</a>
   </div>
 </div></section>
 
-<section><div class="wrap">
+<section id="order"><div class="wrap">
   <h2>ວິທີສັ່ງຊື້</h2>
-  <p class="lead">License ໃຊ້ໄດ້ 1 ເຄື່ອງ. ປ່ຽນຄອມໃໝ່ ແຈ້ງໄດ້ເລີຍ.</p>
+  <p class="lead">ລາຄາ ສອບຖາມທາງ WhatsApp.</p>
   <div class="steps">
     <div class="step"><h4>ຕິດຕໍ່</h4><p>ທັກ WhatsApp ບອກ Add-in ທີ່ຕ້ອງການ ແລະ ຮຸ່ນ AutoCAD.</p></div>
     <div class="step"><h4>ຮັບໄຟລ໌ Setup</h4><p>ຕິດຕັ້ງ MSI ຄລິກດຽວ, ແຖບ CH Tool ຈະປາກົດໃນ Ribbon.</p></div>
@@ -204,7 +131,6 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13.5px;border-top:1p
     <div class="step"><h4>ເປີດໃຊ້</h4><p>ໃສ່ Key ຕໍ່ອິນເຕີເນັດຄັ້ງດຽວ, ຫຼັງຈາກນັ້ນໃຊ້ອອບລາຍໄດ້.</p></div>
   </div>
 </div></section>
-
 <section id="contact"><div class="wrap">
   <div class="contact">
     <div>
@@ -214,21 +140,19 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13.5px;border-top:1p
       <div class="note" id="note" aria-live="polite"></div>
     </div>
     <div class="cta">
-      <a class="btn solid" href="https://wa.me/8562022223752" target="_blank" rel="noopener">ເປີດ WhatsApp</a>
+      <a class="btn solid" href="https://wa.me/8562022223752?text=%E0%BA%AA%E0%BA%B0%E0%BA%9A%E0%BA%B2%E0%BA%8D%E0%BA%94%E0%BA%B5%2C%20%E0%BA%AA%E0%BA%BB%E0%BA%99%E0%BB%83%E0%BA%88%20Add-in%20CH%20Tools" target="_blank" rel="noopener">ທັກ WhatsApp</a>
       <button class="btn ghost" id="copy" type="button">ສຳເນົາເບີ</button>
     </div>
   </div>
 </div></section>
 </main>
-
 <footer><div class="wrap">© 2026 CH Tools · ພັດທະນາໂດຍ ທິບພະຈັນ ພູໄຊ · WhatsApp 020 22223752</div></footer>
-
 <script>
-document.getElementById('copy').addEventListener('click',function(){
-  var n=document.getElementById('note'),t='020 22223752';
-  function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('ph'));var s=getSelection();s.removeAllRanges();s.addRange(r);n.textContent='ເລືອກເບີແລ້ວ, ກົດ Ctrl+C ເພື່ອສຳເນົາ';}
-  try{navigator.clipboard.writeText(t).then(function(){n.textContent='ສຳເນົາເບີແລ້ວ';},sel);}catch(e){sel();}
-});
+(function(){var b=document.getElementById('copy');if(!b)return;b.addEventListener('click',function(){
+var n=document.getElementById('note'),t='020 22223752';
+function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('ph'));var s=getSelection();s.removeAllRanges();s.addRange(r);n.textContent='ເລືອກເບີແລ້ວ, ກົດ Ctrl+C ເພື່ອສຳເນົາ';}
+try{navigator.clipboard.writeText(t).then(function(){n.textContent='ສຳເນົາເບີແລ້ວ';},sel);}catch(e){sel();}
+});})();
 </script>
 </body>
 </html>
