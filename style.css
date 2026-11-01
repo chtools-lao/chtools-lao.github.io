@@ -143,6 +143,13 @@ section{padding-block:44px}
 .card.wide .body{align-self:center;padding:24px 28px}
 .card.wide h3{font-size:26px}
 .card.wide .more{padding:12px 28px}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.grp{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--accent);padding:20px 22px;min-width:0}
+.grp .num{font:600 13px var(--mono);color:var(--accent)}
+.grp h3{margin:2px 0 2px;font-size:21px}
+.grp .sub{margin:0 0 12px;color:var(--muted);font-size:14.5px}
+.grp ul{margin:0;padding-left:18px;font-size:15px}
+.grp li{margin:6px 0}
 /* ---------- contact / footer ---------- */
 .contact{background:var(--panel);border:1px solid var(--line);padding:28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
 .phone{font:600 clamp(24px,4vw,34px) var(--mono);letter-spacing:.02em;user-select:all}
@@ -156,6 +163,7 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13.5px;border-top:1p
   .others{grid-template-columns:repeat(2,minmax(0,1fr))}
   .feats{grid-template-columns:1fr}
   .details{grid-template-columns:1fr}
+  .groups{grid-template-columns:1fr}
   .card.wide{grid-template-columns:1fr;grid-template-rows:auto}
   .card.wide .thumb{grid-row:auto;border-right:0;border-bottom:1px solid var(--line)}
   .feat:nth-child(n){padding:16px 0;border-left:0}
