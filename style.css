@@ -25,6 +25,7 @@ a{color:var(--accent)}
 header.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
 .brand{font-family:var(--mono);font-weight:600;letter-spacing:.04em;display:flex;align-items:center;gap:10px;color:var(--fg);text-decoration:none}
+.brand small{font:400 13px var(--body);letter-spacing:0;color:var(--muted)}
 .brand i{width:14px;height:14px;border:2px solid var(--accent);display:inline-block;position:relative}
 .brand i::after{content:"";position:absolute;inset:3px;background:var(--accent)}
 .nav{display:flex;align-items:center;gap:16px}
